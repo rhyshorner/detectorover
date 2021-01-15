@@ -11,6 +11,7 @@ a semi autonomous small scale car
 -   1x Adafruit 16-Channel PWM / Servo HAT for Raspberry Pi SKU: ADA2327
 -   1x U-Blox NEO-6M GPS Module SKU:CEO5949
 -   1x GPIO Stacking Header Extra-long 2x20 Pins
+-   1x powerbank, model:MB3753 output 5v/2a and 12vjumpstart, 7500mAH
 
 ## hardware no longer used;
 -   20A ESC brushed bidirectional SKU:DRI0047

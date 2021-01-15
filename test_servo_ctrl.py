@@ -16,5 +16,7 @@ led_channel.duty_cycle = 1000 #set middle roughly
 # for controlling servos
 from adafruit_servokit import ServoKit
 kit = ServoKit(channels=16)
+kit.servo[0].set_pulse_width_range(0, 19988) # for led
+kit.servo[1].set_pulse_width_range(1000, 2000) # for servo
 kit.servo[1].angle = 180 # move channel 1 to 180 degress
 kit.servo[1].angle = 0 # move channel 1 to 0 degress

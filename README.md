@@ -18,8 +18,14 @@ a semi autonomous small scale car
 # requirements
 sudo apt-get install python-smbus
 sudo apt-get install i2c-tools
+sudo pip3 install adafruit-circuitpython-servokit
+
 
 # useful information and commands
+
+## PCA9685
+-   https://circuitpython.readthedocs.io/projects/pca9685/en/latest/api.html
+
 ## sudo i2cdetect -y 1
 ## rpi GPIO
 -   persmission

@@ -2,7 +2,7 @@
 a semi autonomous small scale car 
 
 # task list
-
+-    look into https://store.ncd.io/?fwp_product_type=adapters&fwp_platform=raspberry-pi
 -   everything still
 #----------------------------------------------------------------------------------------
 
@@ -26,6 +26,11 @@ sudo pip3 install adafruit-circuitpython-servokit
 
 ## PCA9685
 -   https://circuitpython.readthedocs.io/projects/pca9685/en/latest/api.html
+
+## MPU6050
+-   https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
+-   https://www.teachmemicro.com/orientation-arduino-mpu6050/
+-   https://github.com/rocheparadox/Kalman-Filter-Python-for-mpu6050
 
 ## sudo i2cdetect -y 1
 ## rpi GPIO

@@ -24,10 +24,13 @@ sudo pip3 install adafruit-circuitpython-servokit
 
 # useful information and commands
 
-## PCA9685
+## PCA9685 (servo controller)
 -   https://circuitpython.readthedocs.io/projects/pca9685/en/latest/api.html
 
-## MPU6050
+## ICM20948 (AHRS)
+-   https://github.com/pimoroni/icm20948-python
+
+## MPU6050 (AHRS)
 -   https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
 -   https://www.teachmemicro.com/orientation-arduino-mpu6050/
 -   https://github.com/rocheparadox/Kalman-Filter-Python-for-mpu6050

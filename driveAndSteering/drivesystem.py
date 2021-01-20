@@ -19,7 +19,7 @@ class DriveSystem(object):
 
         self.LHS_forward_power = 0 # power given equally to LHS motors
         self.RHS_forward_power = 0 # power given equally to LHS motors
-        self.directional_power = 0 # power difference given to LHS and RHS motors
+        self.turn_power = 0 # power difference given to LHS and RHS motors
         self.currently_driving_countdown_flag = 0
         self.currently_turning_countdown_flag = 0
         self.driving_countdown_timer = time.time()
@@ -27,10 +27,10 @@ class DriveSystem(object):
         self.turning_countdown_timer = time.time()
         self.turning_countdown = 0
 
-    def drive(self, enabled, direction, speed, amount_of_time):
+    def drive(self, enabled, speed, amount_of_time):
         return
 
-    def turn(self, enabled, direction, speed, amount_of_time):
+    def turn(self, enabled, speed, amount_of_time):
         return
 
 

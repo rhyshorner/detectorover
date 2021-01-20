@@ -37,7 +37,7 @@ def create_dataframe():
     'pitch_calibration_AHRS_deg':0, # a configurable setting
     'heading_calibration_AHRS_deg':0, # a configurable setting
     # drive and turning variables
-    'drive_speed':0, # variable to set the motor driver PWM
+    'drive_speed':0, # variable to set the motor driver PWM, a negative number is reverse
     'drive_time':0, # variable to set for how long to drive for
     'turn_speed':0, # 
     'turn_time':0, # 
@@ -51,35 +51,33 @@ def create_dataframe():
     'heading_ctrl_Iterm':0, # Integral error
     'heading_ctrl_Dterm':0, # Derivative error
     # for future to drive with encoder feedback motors
+    # LHS
     'LHS_motor_current_speed':0,
-    'roll_trim_output':0,
-    'roll_trim_velocity':0,
-    'roll_trim_certainty':'uncertain',
-    'roll_trim_Vin':0,
-    'roll_trim_error':0,
-    'roll_trim_P_gain':75, # a configurable setting
-    'roll_trim_I_gain':0,
-    'roll_trim_D_gain':35,
-    'roll_trim_Pterm':0, # returned from PID calculations
-    'roll_trim_Iterm':0, # returned from PID calculations
-    'roll_trim_Dterm':0, # returned from PID calculations
-    #pitch
-    'pitch_trim_current_position':0,
-    'pitch_trim_output':0,
-    'pitch_trim_velocity':0,
-    'pitch_trim_certainty':'uncertain',
-    'pitch_trim_Vin':0,
-    'pitch_trim_error':0,
-    'pitch_trim_P_gain':75,#75 gain in water # a configurable setting #15 gain in air
-    'pitch_trim_I_gain':0,
-    'pitch_trim_D_gain':35,#35 gain in water #-55 gain in air
-    'pitch_trim_Pterm':0, # returned from PID calculations
-    'pitch_trim_Iterm':0, # returned from PID calculations
-    'pitch_trim_Dterm':0, # returned from PID calculations
-    #dropweight
-    'drop_weight_triggered':0,
+    'LHS_motor_output':0,
+    'LHS_motor_velocity':0,
+    'LHS_motor_error':0,
+    'LHS_motor_P_gain':75, # a configurable setting
+    'LHS_motor_I_gain':0, # a configurable setting
+    'LHS_motor_D_gain':35, # a configurable setting
+    'LHS_motor_Pterm':0, # returned from PID calculations
+    'LHS_motor_Iterm':0, # returned from PID calculations
+    'LHS_motor_Dterm':0, # returned from PID calculations
+    # RHS
+    'RHS_motor_current_speed':0,
+    'RHS_motor_output':0,
+    'RHS_motor_velocity':0,
+    'RHS_motor_error':0,
+    'RHS_motor_P_gain':75, # a configurable setting
+    'RHS_motor_I_gain':0, # a configurable setting
+    'RHS_motor_D_gain':35, # a configurable setting
+    'RHS_motor_Pterm':0, # returned from PID calculations
+    'RHS_motor_Iterm':0, # returned from PID calculations
+    'RHS_motor_Dterm':0, # returned from PID calculations
     #maximum and minimum constraints
-    'maximum_roll':25,
+    'minimum_drive_speed':50,
+    'maximum_drive_speed':180,
+    'minimum_turn_speed':50,
+    'maximum_turn_speed':180,
     }
     return df
 
@@ -152,32 +150,16 @@ def update_df(df, window1, roll_trim_system, ahrs_instrument, pitch_trim_system,
 def create_main_csv(df):
     if df['csv_logging_enable'] == 1:
         filetimestamp = "{:%H-%M-%S_%Y-%m-%d}".format(datetime.datetime.now())
-        csvfilename = "./loggedData/" + filetimestamp + "_miniray.csv"
+        csvfilename = "./loggedData/" + filetimestamp + "_detectorover.csv"
         f = open(csvfilename, 'w', newline='')
         writer = csv.writer(f)
         writer.writerow(list(df.keys()))
         f.close()
         return csvfilename
 
-def create_new_graph_csv_row(df):
-    if df['live_graph_csv_enable'] == 1:
-        graph_csvfilename = "./loggedData/data.csv"
-        f = open(graph_csvfilename, 'w', newline='')
-        writer = csv.writer(f)
-        writer.writerow(list(df.keys()))
-        f.close()
-        return graph_csvfilename
-
 def write_new_csv_row(df, csvfilename):
     if df['csv_logging_enable'] == 1:
         with open(csvfilename, mode='a', newline='') as f:
-            csv.writer(f, delimiter=',').writerow(list(df.values()))
-            f.close()
-    return
-
-def write_new_graph_csv_row(df, graph_csvfilename):
-    if df['live_graph_csv_enable'] == 1:
-        with open(graph_csvfilename, mode='a', newline='') as f:
             csv.writer(f, delimiter=',').writerow(list(df.values()))
             f.close()
     return

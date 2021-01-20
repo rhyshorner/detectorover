@@ -3,6 +3,7 @@ a semi autonomous small scale car
 
 # task list
 -    look into https://store.ncd.io/?fwp_product_type=adapters&fwp_platform=raspberry-pi
+-   https://www.tindie.com/products/saimon/i2cencoder-v21-connect-rotary-encoder-on-i2c-bus/?utm_source=hackadayio& utm_medium=link&utm_campaign=project_buynow
 -   everything still
 #----------------------------------------------------------------------------------------
 

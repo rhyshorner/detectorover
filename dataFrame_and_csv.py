@@ -9,41 +9,38 @@ def create_dataframe():
     # time and timing
     'loop_count':0,
     'loop_speed':0,
+    'current_time':'{:%H-%M-%S}'.format(datetime.datetime.now()),
     'SBC_powered_up_time':round(time.perf_counter(),2),
     # sensors, instruments and calculated sensory data
     'pressure_mbar':0,
-    'vertical_speed':0,
-    'depth_m_MSL':0,
-    'depth_m_local_pressure':0,
-    'water_temperature_c':0,
+    'altitude_MSL':0,
+    'altitude_local_pressure':0,
+    'pressure_sensor_temperature_c':0,
     'roll_AHRS_deg':0,
     'pitch_AHRS_deg':0,
     'heading_AHRS_deg':0,
     'roll_rate_AHRS_deg':0,
     'pitch_rate_AHRS_deg':0,
     'heading_rate_AHRS_deg':0,
-    'vertical_speed_mps':0,
-    'turn_rate_dpm':0,
+    'vertical_speed':0,
     # sub-system enable and disable-------------------------------------------------------
     'heading_controller_enable':0, # if enabled will override !GUI roll Setpoint! 
-    'roll_trim_enable':0, # bit controls whether the roll trim is on
-    'pitch_trim_enable':0, # bit controls whether the pitch trim is on
+    'drive_enable':0, # bit controls whether the roll trim is on
+    'turn_enable':0, # bit controls whether the pitch trim is on
     'csv_logging_enable':0, # a configurable setting
-    'drop_weight_control_enable':0, # a configurable setting
     'gui_enabled':0, # this bit enables the GUI pitch/roll setpionts. GUI opens and displays data still
     'mission_script_enabled':0, # setpoints will be chosen by mission_planner, GUI setpoint will override this if enabled.
     'mission_script_type':'heading change at time', # time, relative_time, depth, sensor, heading change at time, heading change at depth
-    'live_graph_csv_enable':0, # enables a 2nd csv file to be create and opened with PIDterm_graph.py 
     #--------------------------------------------------------------------------------------
     # calibration and offsets
     'roll_calibration_AHRS_deg':0, # a configurable setting
     'pitch_calibration_AHRS_deg':0, # a configurable setting
     'heading_calibration_AHRS_deg':0, # a configurable setting
-    # user configurations and auxillary information
-    'heading_setpoint':0, # not currently used but implementation in progress.
-    'roll_trim_setpoint':0, # 
-    'pitch_trim_setpoint':0, # 
-    'drop_weight_depth_setpoint':0, # not implemented yet
+    # drive and turning variables
+    'drive_speed':0, # variable to set the motor driver PWM
+    'drive_time':0, # variable to set for how long to drive for
+    'turn_speed':0, # 
+    'turn_time':0, # 
     # Control surfaces and actuators
     #heading
     'heading_ctrl_error':0, # current heading - heading setpoint
@@ -53,8 +50,8 @@ def create_dataframe():
     'heading_ctrl_Pterm':0, # Proportional error
     'heading_ctrl_Iterm':0, # Integral error
     'heading_ctrl_Dterm':0, # Derivative error
-    #roll
-    'roll_trim_current_position':0,
+    # for future to drive with encoder feedback motors
+    'LHS_motor_current_speed':0,
     'roll_trim_output':0,
     'roll_trim_velocity':0,
     'roll_trim_certainty':'uncertain',

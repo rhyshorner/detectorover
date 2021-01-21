@@ -8,6 +8,11 @@ import datetime, time, sys, csv
 from guiApp import *
 from dataFrame_and_csv import *
 
+#--------TASKS------------
+# GUI drive_speed control
+# GUI turn speed control
+# mission script, change setpoints to drive and turn
+
 # create local dataframe called df{}
 df = create_dataframe() #from dataFrame_and_csv.py
 

@@ -27,7 +27,7 @@ def create_dataframe():
     'drive_enable':0, # bit controls whether the roll trim is on
     'turn_enable':0, # bit controls whether the pitch trim is on
     'csv_logging_enable':0, # a configurable setting
-    'gui_enabled':0, # this bit enables the GUI pitch/roll setpionts. GUI opens and displays data still
+    'gui_enabled':1, # this bit enables the GUI pitch/roll setpionts. GUI opens and displays data still
     'mission_script_enabled':0, # setpoints will be chosen by mission_planner, GUI setpoint will override this if enabled.
     'mission_script_type':'heading change at time', # time, relative_time, depth, sensor, heading change at time, heading change at depth
     #--------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ def create_dataframe():
     }
     return df
 
-def update_df(df, window1, roll_trim_system, ahrs_instrument, pitch_trim_system, pressuresensor):
+def update_df(df, window1, roll_trim_system, ahrs_instrument, pressuresensor):
     df['loop_count'] = df['loop_count'] + 1
     df['loop_speed'] = round(time.perf_counter() - df['SBC_powered_up_time'],3)
     df['current_time'] = '{:%H-%M-%S}'.format(datetime.datetime.now())

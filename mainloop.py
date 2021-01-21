@@ -50,11 +50,11 @@ while True:
 
     #---------set or check mission script-----------------------
     if df['gui_enabled'] == 0: # this is an interlock between mission script and gui input
-        mission_script.mission_script_event_check(df['mission_script_enabled'])
+        mission_script.mission_script_event_check(df['mission_script_enabled'], df['drive_speed'], df['turn_speed'], df['heading_setpoint'])
 
     #---------control loop section------------------------------
     df['heading_ctrl_error'], df['turn_speed'], df['heading_ctrl_Pterm'], df['heading_ctrl_Iterm'], df['heading_ctrl_Dterm'] = heading_control.control_loop(df['heading_controller_enable'], df['heading_setpoint'], df['heading_AHRS_deg'], df['turn_speed'])
-    drive_system.drive(df['drive_enable'], df['drive_speed'], df['drive_time'])
+    drive_system.drive(df['drive_enable'], df['drive_speed'])
 
     #----------update csv---------------------------------------
     write_new_csv_row(df, csvfilename) #from dataFrame_and_csv.py

@@ -37,18 +37,17 @@ class Application(tkinter.Frame):
 
 #--------------------INPUTS------------------------------------
         # drive inputs
-        self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.drive_speed_intvar, orient=HORIZONTAL, label="Pitch angle setpoint",length=500, width=15)
-        self.drive_speed_setpoint.grid(row=4,column=4)
+        self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.drive_speed_intvar, orient=HORIZONTAL, label="drive speed setpoint",length=500, width=15)
+        self.drive_speed_setpoint.grid(row=0,column=0)
         self.drive_speed_setpoint.set(0)
 
         # pitch tab GUI label displays
         self.current_drive_speed_label = Label(drive_system_tab, font=(self.font_type,self.font_size))
-        self.current_drive_speed_label.grid(row=5,column=4)
+        self.current_drive_speed_label.grid(row=1,column=0)
 
     def update_GUI_labels(self, df):
         self.master.update()
         if (time.time() - self.label_update_countdown_timer) > self.label_update_timer:
-            self.current_drive_speed_label.config(text="Current Position: " + str(df['pitch_trim_current_position']))
-            self.drive_speed_setpoint.config(text="Pitch angle setpoint: " + str(df['pitch_trim_setpoint']))
+            self.current_drive_speed_label.config(text="Current drive speed: " + str(df['drive_speed']))
  
             self.label_update_countdown_timer = time.time()

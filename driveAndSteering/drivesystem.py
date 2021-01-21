@@ -4,10 +4,9 @@ import busio
 from adafruit_servokit import ServoKit
 import time
 
-
 class DriveSystem(object):
     """ detectorover's forward drive and steering management class """
-    def __init__(self):
+    def __init__(self, min_drive_speed, max_drive_speed, min_turn_speed, max_turn_speed):
         self.i2c = busio.I2C(board.SCL, board.SDA) #initialize i2c on rpi
         self.kit = ServoKit(channels=16)
         self.kit.servo[0].set_pulse_width_range(0, 19988) # for LHS
@@ -16,6 +15,11 @@ class DriveSystem(object):
         self.kit.servo[3].set_pulse_width_range(0, 19988) # for LHS
         self.kit.servo[4].set_pulse_width_range(0, 19988) # for LHS
         self.kit.servo[5].set_pulse_width_range(0, 19988) # for LHS
+
+        self.min_drive_speed = min_drive_speed        
+        self.max_drive_speed = max_drive_speed
+        self.min_turn_speed = min_turn_speed
+        self.max_turn_speed = min_turn_speed
 
         self.LHS_forward_power = 0 # power given equally to LHS motors
         self.RHS_forward_power = 0 # power given equally to LHS motors

@@ -17,33 +17,27 @@ class Application(tkinter.Frame):
         self.label_update_timer = 0.4
 
         window1_root_tab = ttk.Notebook(master)
-        #overview_tab = ttk.Frame(window1_root_tab)
-        pitch_trim_tab = ttk.Frame(window1_root_tab)
-        roll_trim_tab = ttk.Frame(window1_root_tab)
-        heading_ctrl_tab = ttk.Frame(window1_root_tab)
+        drive_system_tab = ttk.Frame(window1_root_tab)
         AHRS_tab = ttk.Frame(window1_root_tab)
-        pressure_tab = ttk.Frame(window1_root_tab)
-        enabled_tab = ttk.Frame(window1_root_tab)
         
         #window1_root_tab.add(overview_tab, text="  overview  ")
         window1_root_tab.add(drive_system_tab, text="  pitch trim  ")
         window1_root_tab.add(AHRS_tab, text="  AHRS  ")
-        window1_root_tab.add(pressure_tab, text="  pressure  ")
-        window1_root_tab.add(enabled_tab, text="  enabled?  ")
         window1_root_tab.pack(expand=1, fill='both')
         self.pack()
-        time.sleep(0.2)
         # scale and gui intput variables
-        self.pitch_trim_intvar = IntVar()
-        self.roll_trim_intvar = IntVar()
+        self.drive_speed_intvar = IntVar()
+        self.turn_speed_intvar = IntVar()
         self.heading_intvar = IntVar()
 
+        self.heading_controller_enable_intvar = IntVar()
+        self.heading_controller_enable_intvar.set(df['heading_controller_enable'])
         self.gui_enabled_intvar = IntVar()
         self.gui_enabled_intvar.set(df['gui_enabled'])
 
 #--------------------INPUTS------------------------------------
         # drive inputs
-        self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.pitch_trim_intvar, orient=HORIZONTAL, label="Pitch angle setpoint",length=500, width=15)
+        self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.drive_speed_intvar, orient=HORIZONTAL, label="Pitch angle setpoint",length=500, width=15)
         self.drive_speed_setpoint.grid(row=4,column=4)
         self.drive_speed_setpoint.set(0)
 

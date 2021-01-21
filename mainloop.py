@@ -47,7 +47,7 @@ while True:
         mission_script.mission_script_event_check(df['mission_script_enabled'])
 
     #---------control loop section------------------------------
-    df['heading_ctrl_error'], df['roll_trim_setpoint'], df['heading_ctrl_Pterm'], df['heading_ctrl_Iterm'], df['heading_ctrl_Dterm'] = heading_control.control_loop(df['heading_controller_enable'], df['heading_setpoint'], df['heading_AHRS_deg'], df['roll_trim_setpoint'])
+    df['heading_ctrl_error'], df['turn_speed'], df['heading_ctrl_Pterm'], df['heading_ctrl_Iterm'], df['heading_ctrl_Dterm'] = heading_control.control_loop(df['heading_controller_enable'], heading_setpoint, current_heading, df['turn_speed'])
     drive(df['drive_enable'], df['drive_speed'], df['drive_time'])
 
     #----------update csv---------------------------------------

@@ -22,7 +22,6 @@ def create_dataframe():
     'roll_rate_AHRS_deg':0,
     'pitch_rate_AHRS_deg':0,
     'heading_rate_AHRS_deg':0,
-    'vertical_speed':0,
     # sub-system enable and disable-------------------------------------------------------
     'heading_controller_enable':0, # if enabled will override !GUI roll Setpoint! 
     'drive_enable':0, # bit controls whether the roll trim is on
@@ -38,9 +37,7 @@ def create_dataframe():
     'heading_calibration_AHRS_deg':0, # a configurable setting
     # drive and turning variables
     'drive_speed':0, # variable to set the motor driver PWM, a negative number is reverse
-    'drive_time':0, # variable to set for how long to drive for
     'turn_speed':0, # 
-    'turn_time':0, # 
     # Control surfaces and actuators
     #heading
     'heading_ctrl_error':0, # current heading - heading setpoint
@@ -84,67 +81,35 @@ def create_dataframe():
 def update_df(df, window1, roll_trim_system, ahrs_instrument, pitch_trim_system, pressuresensor):
     df['loop_count'] = df['loop_count'] + 1
     df['loop_speed'] = round(time.perf_counter() - df['SBC_powered_up_time'],3)
+    df['current_time'] = '{:%H-%M-%S}'.format(datetime.datetime.now())
     df['SBC_powered_up_time'] = round(time.perf_counter(),3)
 
-    df['gui_enabled'] = window1.gui_enabled_intvar.get()
-    df['heading_controller_enable'] = window1.heading_controller_enable_intvar.get()
-    df['roll_trim_enable'] = window1.roll_trim_enable_intvar.get()
-    df['pitch_trim_enable'] = window1.pitch_trim_enable_intvar.get()
-    df['csv_logging_enable'] = window1.csv_logging_enable_intvar.get()
-    df['drop_weight_control_enable'] = window1.drop_weight_control_enable_intvar.get()
-    df['mission_script_enabled'] = window1.mission_script_enabled_intvar.get()
-    df['live_graph_csv_enable'] = window1.live_graph_enabled_intvar.get()
+    df['pressure_mbar'] = 0 # read pressure sensor
+    df['altitude_MSL'] = 0 # read pressure sensor
+    df['altitude_local_pressure'] = 0 # read pressure sensor
+    df['pressure_sensor_temperature_c'] = # read pressure sensor
+    df['roll_AHRS_deg'] = 0 # read AHRS
+    df['pitch_AHRS_deg'] = 0 # read AHRS
+    df['heading_AHRS_deg'] = 0 # read AHRS
+    df['roll_rate_AHRS_deg'] = 0 # read AHRS
+    df['pitch_rate_AHRS_deg'] = 0 # read AHRS
+    df['heading_rate_AHRS_deg'] = 0 # read AHRS
 
-    try:
-        df['pressure_mbar'] = round(pressuresensor.pressure_mbar(),3)
-        df['vertical_speed'] = round(pressuresensor.vertical_speed_estimate(),3)
-        df['depth_m_MSL'] = round(pressuresensor.depth_meters_MSL(),3)
-        df['depth_m_local_pressure'] = round(pressuresensor.depth_meters(),3)
-        df['water_temperature_c'] = round(pressuresensor.sensor_temperature(),3)
-    except:
-        df['pressure_mbar'] = df['pressure_mbar']
-        df['vertical_speed'] = df['vertical_speed']
-        df['depth_m_MSL'] = df['depth_m_MSL']
-        df['depth_m_local_pressure'] = df['depth_m_local_pressure']
-        df['water_temperature_c'] = df['water_temperature_c']
-        print("!!!! pressure sensor threw exception !!!!")
-    
-    try:
-        AHRS_list = ahrs_instrument.request_rollpitchyaw_list()
-        df['roll_AHRS_deg'] = round(AHRS_list[0],3)
-        df['pitch_AHRS_deg'] = round(AHRS_list[1],3)
-        df['heading_AHRS_deg'] = round(AHRS_list[2],3)
-    except:
-        df['roll_AHRS_deg'] = df['roll_AHRS_deg']
-        df['pitch_AHRS_deg'] = df['pitch_AHRS_deg']
-        df['heading_AHRS_deg'] = df['heading_AHRS_deg']
-        print("!!!! um7 sensor threw exception !!!!")
-    try:
-        AHRS_rate_list = ahrs_instrument.request_rollpitchyaw_rate_list()
-        df['roll_rate_AHRS_deg'] = round(AHRS_rate_list[0],3)
-        df['pitch_rate_AHRS_deg'] = round(AHRS_rate_list[1],3)
-        df['heading_rate_AHRS_deg'] = round(AHRS_rate_list[2],3)
-    except:
-        df['roll_rate_AHRS_deg'] = df['roll_rate_AHRS_deg']
-        df['pitch_rate_AHRS_deg'] = df['pitch_rate_AHRS_deg']
-        df['heading_rate_AHRS_deg'] = df['heading_rate_AHRS_deg']
-        print("!!!! um7 sensor threw exception !!!!")
+    df['heading_controller_enable'] = window1.heading_controller_enable_intvar.get()
+    #df['drive_enable']
+    #df['turn_enable']
+    #df['csv_logging_enable']
+    df['gui_enabled'] = window1.gui_enabled_intvar.get()
+    #df['mission_script_enabled']
 
     if df['gui_enabled'] == 1:
         df['heading_setpoint'] = window1.heading_intvar.get()
-        df['roll_trim_setpoint'] = window1.roll_trim_intvar.get()
-        df['pitch_trim_setpoint'] = window1.pitch_trim_intvar.get()
+        df['drive_speed'] = window1.drive_speed_intvar.get()
+        df['turn_speed'] = window1.turn_speed_intvar.get()
     else:
         df['heading_setpoint'] = df['heading_setpoint']
-        df['roll_trim_setpoint'] = df['roll_trim_setpoint']
-        df['pitch_trim_setpoint'] = df['pitch_trim_setpoint']
-
-    df['roll_trim_current_position'] = roll_trim_system.get_position()
-    df['roll_trim_certainty'] = roll_trim_system.get_position_certainty()
-    df['roll_trim_Vin'] = roll_trim_system.get_Vin()
-    df['pitch_trim_current_position'] = pitch_trim_system.get_position()
-    df['pitch_trim_certainty'] = pitch_trim_system.get_position_certainty()
-    df['pitch_trim_Vin'] = pitch_trim_system.get_Vin()
+        df['drive_speed'] = df['drive_speed']
+        df['turn_speed'] = df['turn_speed']
     return df
 
 def create_main_csv(df):

@@ -16,7 +16,7 @@ pressuresensor = pressureSensor.PressureSensor(local_pressure=101325)
 
 ahrs_instrument = ahrs.Mpu6050Ahrs()
 
-drive_system = driveSystem.DriveSystem(min_drive_speed=df['minimum_drive_speed'],
+drive_system = drivesystem.DriveSystem(min_drive_speed=df['minimum_drive_speed'],
                                         max_drive_speed=df['maximum_drive_speed'],
                                         min_turn_speed=df['minimum_turn_speed'],
                                         max_turn_speed=df['maximum_turn_speed'],
@@ -27,6 +27,7 @@ mission_script = mission_planner.MissionPlanner(df['mission_script_type'])
 heading_control = heading_controller.HeadingController(df['heading_ctrl_P_gain'],
                                                     df['heading_ctrl_I_gain'],
                                                     df['heading_ctrl_D_gain'],
+                                                    df['maximum_turn_speed']
                                                     )
 
 # Create gui app here and begin with mainloop()
@@ -47,8 +48,8 @@ while True:
         mission_script.mission_script_event_check(df['mission_script_enabled'])
 
     #---------control loop section------------------------------
-    df['heading_ctrl_error'], df['turn_speed'], df['heading_ctrl_Pterm'], df['heading_ctrl_Iterm'], df['heading_ctrl_Dterm'] = heading_control.control_loop(df['heading_controller_enable'], heading_setpoint, current_heading, df['turn_speed'])
-    drive(df['drive_enable'], df['drive_speed'], df['drive_time'])
+    df['heading_ctrl_error'], df['turn_speed'], df['heading_ctrl_Pterm'], df['heading_ctrl_Iterm'], df['heading_ctrl_Dterm'] = heading_control.control_loop(df['heading_controller_enable'], df['heading_setpoint'], df['heading_AHRS_deg'], df['turn_speed'])
+    drive_system.drive(df['drive_enable'], df['drive_speed'], df['drive_time'])
 
     #----------update csv---------------------------------------
     write_new_csv_row(df, csvfilename) #from dataFrame_and_csv.py

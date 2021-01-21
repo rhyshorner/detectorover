@@ -36,6 +36,7 @@ def create_dataframe():
     'pitch_calibration_AHRS_deg':0, # a configurable setting
     'heading_calibration_AHRS_deg':0, # a configurable setting
     # drive and turning variables
+    'heading_setpoint':0, # variable to control heading
     'drive_speed':0, # variable to set the motor driver PWM, a negative number is reverse
     'turn_speed':0, # 
     # Control surfaces and actuators
@@ -87,7 +88,7 @@ def update_df(df, window1, roll_trim_system, ahrs_instrument, pitch_trim_system,
     df['pressure_mbar'] = 0 # read pressure sensor
     df['altitude_MSL'] = 0 # read pressure sensor
     df['altitude_local_pressure'] = 0 # read pressure sensor
-    df['pressure_sensor_temperature_c'] = # read pressure sensor
+    df['pressure_sensor_temperature_c'] = 0# read pressure sensor
     df['roll_AHRS_deg'] = 0 # read AHRS
     df['pitch_AHRS_deg'] = 0 # read AHRS
     df['heading_AHRS_deg'] = 0 # read AHRS

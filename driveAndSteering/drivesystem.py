@@ -24,20 +24,12 @@ class DriveSystem(object):
         self.LHS_forward_power = 0 # power given equally to LHS motors
         self.RHS_forward_power = 0 # power given equally to LHS motors
         self.turn_power = 0 # power difference given to LHS and RHS motors
-        self.currently_driving_countdown_flag = 0
-        self.currently_turning_countdown_flag = 0
-        self.driving_countdown_timer = time.time()
-        self.driving_countdown = 0
-        self.turning_countdown_timer = time.time()
-        self.turning_countdown = 0
 
-    def drive(self, enabled, speed, amount_of_time):
+    def drive(self, enabled, speed):
         return
 
-    def turn(self, enabled, speed, amount_of_time):
+    def turn(self, enabled, speed):
         return
-
-
 
 # kit.servo[1].angle = 180 # move channel 1 to 180 degress
 # # for controlling LEDS

@@ -1,4 +1,4 @@
-from . import mpu6050
+#from . import mpu6050
 
 class Mpu6050Ahrs(object):
     """ detectorovers's attitude and heading management class """

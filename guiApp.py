@@ -54,7 +54,7 @@ class Application(tkinter.Frame):
         # drive_tab inputs
         self.drive_speed_setpoint_entry = tkinter.Entry(drive_system_tab)
         self.drive_speed_setpoint_entry.grid(row=0,column=0)
-        self.drive_speed_button = Button(drive_system_tab, text="set speed", command=set_drive_speed)
+        self.drive_speed_button = Button(drive_system_tab, text="set speed", bg="green3", activebackground="green4",  command=set_drive_speed)
         self.drive_speed_button.grid(row=0, column=1)
         self.drive_stop_button = Button(drive_system_tab, text="STOP", bg="red", activebackground="red3", command=set_drive_stop)
         self.drive_stop_button.grid(row=0, column=2)

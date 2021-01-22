@@ -30,6 +30,7 @@ class DriveSystem(object):
             if speed > 0:
                 self.kit.servo[2].angle = speed
                 self.kit.servo[0].angle = 180
+                self.kit.servo[1].angle = 0
             if speed < 0:
                 self.kit.servo[2].angle = -speed
                 self.kit.servo[0].angle = 0

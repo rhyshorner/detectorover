@@ -24,7 +24,7 @@ def create_dataframe():
     'heading_rate_AHRS_deg':0,
     # sub-system enable and disable-------------------------------------------------------
     'heading_controller_enable':0, # if enabled will override !GUI roll Setpoint! 
-    'drive_enable':0, # bit controls whether the roll trim is on
+    'drive_enable':1, # bit controls whether the roll trim is on
     'turn_enable':0, # bit controls whether the pitch trim is on
     'csv_logging_enable':0, # a configurable setting
     'gui_enabled':1, # this bit enables the GUI pitch/roll setpionts. GUI opens and displays data still

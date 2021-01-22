@@ -9,12 +9,12 @@ class DriveSystem(object):
     def __init__(self, min_drive_speed, max_drive_speed, min_turn_speed, max_turn_speed):
         self.i2c = busio.I2C(board.SCL, board.SDA) #initialize i2c on rpi
         self.kit = ServoKit(channels=16)
-        self.kit.servo[0].set_pulse_width_range(0, 19988) # for LHS
-        self.kit.servo[1].set_pulse_width_range(0, 19988) # for LHS
-        self.kit.servo[2].set_pulse_width_range(0, 19988) # for LHS
-        self.kit.servo[3].set_pulse_width_range(0, 19988) # for LHS
-        self.kit.servo[4].set_pulse_width_range(0, 19988) # for LHS
-        self.kit.servo[5].set_pulse_width_range(0, 19988) # for LHS
+        self.kit.servo[0].set_pulse_width_range(0, 19988) # for LHS input3
+        self.kit.servo[1].set_pulse_width_range(0, 19988) # for LHS input4
+        self.kit.servo[2].set_pulse_width_range(0, 19988) # for LHS enableB
+        self.kit.servo[3].set_pulse_width_range(0, 19988) # for RHS input3
+        self.kit.servo[4].set_pulse_width_range(0, 19988) # for RHS input4
+        self.kit.servo[5].set_pulse_width_range(0, 19988) # for RHS enableA
 
         self.min_drive_speed = min_drive_speed        
         self.max_drive_speed = max_drive_speed
@@ -26,6 +26,22 @@ class DriveSystem(object):
         self.turn_power = 0 # power difference given to LHS and RHS motors
 
     def drive(self, enabled, speed):
+        if enabled == 1:
+            if speed > 0:
+                self.kit.servo[2].angle = speed
+                self.kit.servo[0].angle = 180
+            if speed < 0:
+                self.kit.servo[2].angle = -speed
+                self.kit.servo[0].angle = 0
+                self.kit.servo[1].angle = 180
+            elif speed == 0:
+                self.kit.servo[2].angle = 0
+                self.kit.servo[0].angle = 0
+                self.kit.servo[1].angle = 0 
+        else:
+            self.kit.servo[2].angle = 0
+            self.kit.servo[0].angle = 0
+            self.kit.servo[1].angle = 0
         return
 
     def turn(self, enabled, speed):

@@ -50,6 +50,7 @@ def create_dataframe():
     'heading_ctrl_Dterm':0, # Derivative error
     # for future to drive with encoder feedback motors
     # LHS
+    'LHS_motor_speed_setpoint'
     'LHS_motor_current_speed':0,
     'LHS_motor_output':0,
     'LHS_motor_velocity':0,
@@ -61,6 +62,7 @@ def create_dataframe():
     'LHS_motor_Iterm':0, # returned from PID calculations
     'LHS_motor_Dterm':0, # returned from PID calculations
     # RHS
+    'RHS_motor_speed_setpoint'
     'RHS_motor_current_speed':0,
     'RHS_motor_output':0,
     'RHS_motor_velocity':0,
@@ -72,10 +74,8 @@ def create_dataframe():
     'RHS_motor_Iterm':0, # returned from PID calculations
     'RHS_motor_Dterm':0, # returned from PID calculations
     #maximum and minimum constraints
-    'minimum_drive_speed':50,
+    'minimum_drive_speed':40,
     'maximum_drive_speed':180,
-    'minimum_turn_speed':50,
-    'maximum_turn_speed':180,
     }
     return df
 

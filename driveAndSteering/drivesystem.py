@@ -6,7 +6,7 @@ import time
 
 class DriveSystem(object):
     """ detectorover's forward drive and steering management class """
-    def __init__(self, min_drive_speed, max_drive_speed, min_turn_speed, max_turn_speed):
+    def __init__(self, min_motor_speed, max_motor_speed):
         self.i2c = busio.I2C(board.SCL, board.SDA) #initialize i2c on rpi
         self.kit = ServoKit(channels=16)
         self.kit.servo[0].set_pulse_width_range(0, 19988) # for LHS input3
@@ -16,17 +16,36 @@ class DriveSystem(object):
         self.kit.servo[4].set_pulse_width_range(0, 19988) # for RHS input4
         self.kit.servo[5].set_pulse_width_range(0, 19988) # for RHS enableA
 
-        self.min_drive_speed = min_drive_speed        
-        self.max_drive_speed = max_drive_speed
-        self.min_turn_speed = min_turn_speed
-        self.max_turn_speed = min_turn_speed
+        self.min_motor_speed = min_motor_speed        
+        self.max_motor_speed = max_motor_speed
 
         self.LHS_drive_power = 0 # power given equally to LHS motors
         self.RHS_drive_power = 0 # power given equally to RHS motors
         self.turn_power = 0 # power difference given to LHS and RHS motors
 
-    def drive(self, enabled, speed):
+    def drive(self, enabled, speed, turn):
         if enabled == 1:
+            self.LHS_drive_power = speed + turn
+            self.RHS_drive_power = speed - turn
+
+            if self.LHS_drive_power > self.max_motor_speed:
+                self.LHS_drive_power = self.max_motor_speed
+            elif self.LHS_drive_power < -self.max_motor_speed:
+                self.LHS_drive_power = -self.max_motor_speed
+            elif self.LHS_drive_power > 0 and self.LHS_drive_power < self.min_motor_speed:
+                self.LHS_drive_power = self.min_motor_speed
+            elif self.LHS_drive_power < 0 and self.LHS_drive_power > -self.min_motor_speed: 
+                self.LHS_drive_power = -self.min_motor_speed
+
+            if self.RHS_drive_power > self.max_motor_speed:
+                self.RHS_drive_power = self.max_motor_speed
+            elif self.RHS_drive_power < -self.max_motor_speed:
+                self.RHS_drive_power = -self.max_motor_speed
+            elif self.RHS_drive_power > 0 and self.RHS_drive_power < self.min_motor_speed:
+                self.RHS_drive_power = self.min_motor_speed
+            elif self.RHS_drive_power < 0 and self.RHS_drive_power > -self.min_motor_speed: 
+                self.RHS_drive_power = -self.min_motor_speed
+
             if speed > 0:
                 self.kit.servo[2].angle = speed
                 self.kit.servo[0].angle = 180
@@ -38,12 +57,15 @@ class DriveSystem(object):
             elif speed == 0:
                 self.kit.servo[2].angle = 0
                 self.kit.servo[0].angle = 0
-                self.kit.servo[1].angle = 0 
+                self.kit.servo[1].angle = 0
+
         else:
+            self.LHS_drive_power = self.LHS_drive_power
+            self.RHS_drive_power = self.RHS_drive_power
             self.kit.servo[2].angle = 0
             self.kit.servo[0].angle = 0
             self.kit.servo[1].angle = 0
-        return
+        return self.LHS_drive_power, self.RHS_drive_power
 
     def turn(self, enabled, speed):
         return

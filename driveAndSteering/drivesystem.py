@@ -21,8 +21,8 @@ class DriveSystem(object):
         self.min_turn_speed = min_turn_speed
         self.max_turn_speed = min_turn_speed
 
-        self.LHS_forward_power = 0 # power given equally to LHS motors
-        self.RHS_forward_power = 0 # power given equally to LHS motors
+        self.LHS_drive_power = 0 # power given equally to LHS motors
+        self.RHS_drive_power = 0 # power given equally to RHS motors
         self.turn_power = 0 # power difference given to LHS and RHS motors
 
     def drive(self, enabled, speed):

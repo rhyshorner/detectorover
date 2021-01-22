@@ -26,6 +26,7 @@ class Application(tkinter.Frame):
         window1_root_tab.pack(expand=1, fill='both')
         self.pack()
         # scale and gui intput variables
+        self.drive_speed_entry_box_stringvar = StringVar()
         self.drive_speed_intvar = IntVar()
         self.turn_speed_intvar = IntVar()
         self.heading_intvar = IntVar()
@@ -35,13 +36,20 @@ class Application(tkinter.Frame):
         self.gui_enabled_intvar = IntVar()
         self.gui_enabled_intvar.set(df['gui_enabled'])
 
+        def set_drive_speed():
+            x = int(self.drive_speed_entry_box_stringvar.get())
+            if x > 180:
+                x = 180
+            elif x < -180:
+                x = -180
+            self.drive_speed_intvar.set(x)
+            return
 #--------------------INPUTS------------------------------------
         # drive inputs
         self.drive_speed_setpoint_entry = tkinter.Entry(drive_system_tab)
         self.drive_speed_setpoint_entry.grid(row=0,column=0)
-        self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.drive_speed_intvar, orient=HORIZONTAL, label="drive speed setpoint",length=500, width=15)
-        self.drive_speed_setpoint.grid(row=1,column=0)
-        self.drive_speed_setpoint.set(0)
+        self.drive_speed_button = Button(drive_system_tab, text="drive_speed", command=set_drive_speed)
+        self.drive_speed_button.grid(row=0, column=1)
 
         # pitch tab GUI label displays
         self.current_drive_speed_label = Label(drive_system_tab, font=(self.font_type,self.font_size))

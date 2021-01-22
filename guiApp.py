@@ -37,13 +37,15 @@ class Application(tkinter.Frame):
 
 #--------------------INPUTS------------------------------------
         # drive inputs
+        self.drive_speed_setpoint_entry = tkinter.Entry(drive_system_tab)
+        self.drive_speed_setpoint_entry.grid(row=0,column=0)
         self.drive_speed_setpoint = tkinter.Scale(drive_system_tab, font=(self.font_type,self.font_size), from_=-20, to=20, variable=self.drive_speed_intvar, orient=HORIZONTAL, label="drive speed setpoint",length=500, width=15)
-        self.drive_speed_setpoint.grid(row=0,column=0)
+        self.drive_speed_setpoint.grid(row=1,column=0)
         self.drive_speed_setpoint.set(0)
 
         # pitch tab GUI label displays
         self.current_drive_speed_label = Label(drive_system_tab, font=(self.font_type,self.font_size))
-        self.current_drive_speed_label.grid(row=1,column=0)
+        self.current_drive_speed_label.grid(row=2,column=0)
 
     def update_GUI_labels(self, df):
         self.master.update()

@@ -76,6 +76,7 @@ def create_dataframe():
     #maximum and minimum constraints
     'minimum_drive_speed':40,
     'maximum_drive_speed':180,
+    'maximum_turn_speed':180,
     }
     return df
 

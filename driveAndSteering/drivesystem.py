@@ -46,15 +46,15 @@ class DriveSystem(object):
             elif self.RHS_drive_power < 0 and self.RHS_drive_power > -self.min_motor_speed: 
                 self.RHS_drive_power = -self.min_motor_speed
 
-            if speed > 0:
-                self.kit.servo[2].angle = speed
+            if self.LHS_drive_power > 0:
+                self.kit.servo[2].angle = self.LHS_drive_power
                 self.kit.servo[0].angle = 180
                 self.kit.servo[1].angle = 0
-            if speed < 0:
-                self.kit.servo[2].angle = -speed
+            if self.LHS_drive_power < 0:
+                self.kit.servo[2].angle = -self.LHS_drive_power
                 self.kit.servo[0].angle = 0
                 self.kit.servo[1].angle = 180
-            elif speed == 0:
+            elif self.LHS_drive_power == 0:
                 self.kit.servo[2].angle = 0
                 self.kit.servo[0].angle = 0
                 self.kit.servo[1].angle = 0

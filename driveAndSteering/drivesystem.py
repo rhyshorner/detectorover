@@ -50,7 +50,7 @@ class DriveSystem(object):
                 self.kit.servo[2].angle = self.LHS_drive_power
                 self.kit.servo[0].angle = 180
                 self.kit.servo[1].angle = 0
-            if self.LHS_drive_power < 0:
+            elif self.LHS_drive_power < 0:
                 self.kit.servo[2].angle = -self.LHS_drive_power
                 self.kit.servo[0].angle = 0
                 self.kit.servo[1].angle = 180
@@ -58,6 +58,19 @@ class DriveSystem(object):
                 self.kit.servo[2].angle = 0
                 self.kit.servo[0].angle = 0
                 self.kit.servo[1].angle = 0
+
+            if self.RHS_drive_power > 0:
+                self.kit.servo[5].angle = self.RHS_drive_power
+                self.kit.servo[3].angle = 180
+                self.kit.servo[4].angle = 0
+            elif self.RHS_drive_power < 0:
+                self.kit.servo[5].angle = -self.RHS_drive_power
+                self.kit.servo[3].angle = 0
+                self.kit.servo[4].angle = 180
+            elif self.RHS_drive_power == 0:
+                self.kit.servo[5].angle = 0
+                self.kit.servo[3].angle = 0
+                self.kit.servo[4].angle = 0
 
         else:
             self.LHS_drive_power = self.LHS_drive_power

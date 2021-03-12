@@ -24,8 +24,7 @@ def create_dataframe():
     'heading_rate_AHRS_deg':0,
     # sub-system enable and disable-------------------------------------------------------
     'heading_controller_enable':0, # if enabled will override !GUI roll Setpoint! 
-    'drive_enable':1, # bit controls whether the roll trim is on
-    'turn_enable':0, # bit controls whether the pitch trim is on
+    'drive_enable':1, # bit controls whether the motor drive is on
     'csv_logging_enable':0, # a configurable setting
     'gui_enabled':1, # this bit enables the GUI pitch/roll setpionts. GUI opens and displays data still
     'mission_script_enabled':0, # setpoints will be chosen by mission_planner, GUI setpoint will override this if enabled.
@@ -90,9 +89,11 @@ def update_df(df, window1, roll_trim_system, ahrs_instrument, pressuresensor):
     df['altitude_MSL'] = 0 # read pressure sensor
     df['altitude_local_pressure'] = 0 # read pressure sensor
     df['pressure_sensor_temperature_c'] = 0# read pressure sensor
-    df['roll_AHRS_deg'] = 0 # read AHRS
-    df['pitch_AHRS_deg'] = 0 # read AHRS
-    df['heading_AHRS_deg'] = 0 # read AHRS
+
+    rollpitchyaw = ahrs_instrument.roll_pitch_yaw_kalman() # read AHRS
+    df['roll_AHRS_deg'] = rollpitchyaw[0]
+    df['pitch_AHRS_deg'] = rollpitchyaw[1]
+    df['heading_AHRS_deg'] = rollpitchyaw[2]
     df['roll_rate_AHRS_deg'] = 0 # read AHRS
     df['pitch_rate_AHRS_deg'] = 0 # read AHRS
     df['heading_rate_AHRS_deg'] = 0 # read AHRS

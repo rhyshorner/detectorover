@@ -85,6 +85,13 @@ class Application(tkinter.Frame):
         self.RHS_motor_speed_setpoint_label = Label(drive_system_tab, font=(self.font_type,self.font_size))
         self.RHS_motor_speed_setpoint_label.grid(row=6,column=0)
 
+        # AHRS
+        self.roll_label = Label(AHRS_tab, font=(self.font_type,self.font_size))
+        self.roll_label.grid(row=0,column=0)
+        self.pitch_label = Label(AHRS_tab, font=(self.font_type,self.font_size))
+        self.pitch_label.grid(row=1,column=0)
+        self.yaw_label = Label(AHRS_tab, font=(self.font_type,self.font_size))
+        self.yaw_label.grid(row=2,column=0)
 
     def update_GUI_labels(self, df):
         self.master.update()
@@ -93,6 +100,8 @@ class Application(tkinter.Frame):
             self.current_drive_speed_label.config(text="Current drive speed: " + str(df['drive_speed']))
             self.current_turn_speed_label.config(text="Current turn speed: " + str(df['turn_speed']))
             self.LHS_motor_speed_setpoint_label.config(text="LHS drive speed: " + str(df['LHS_motor_speed_setpoint']))
-            self.RHS_motor_speed_setpoint_label .config(text="RHS drive speed: " + str(df['RHS_motor_speed_setpoint']))
-
+            self.RHS_motor_speed_setpoint_label.config(text="RHS drive speed: " + str(df['RHS_motor_speed_setpoint']))
+            self.roll_label.config(text=f"roll: {round(df['roll_AHRS_deg'],3)}")
+            self.pitch_label.config(text=f"pitch: {round(df['pitch_AHRS_deg'],3)}")
+            self.yaw_label.config(text=f"yaw: {round(df['heading_AHRS_deg'],3)}")
             self.label_update_countdown_timer = time.time()

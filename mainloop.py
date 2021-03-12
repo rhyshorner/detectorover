@@ -19,7 +19,7 @@ df = create_dataframe() #from dataFrame_and_csv.py
 # Setup class objects, initialize sensors and control systems
 pressuresensor = pressureSensor.PressureSensor(local_pressure=101325)
 
-ahrs_instrument = ahrs.Mpu6050Ahrs()
+ahrs_instrument = ahrs.Ahrs()
 
 drive_system = drivesystem.DriveSystem(min_motor_speed=df['minimum_drive_speed'],
                                         max_motor_speed=df['maximum_drive_speed'],

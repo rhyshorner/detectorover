@@ -66,7 +66,7 @@ AK09916_CNTL2_MODE_TEST = 16
 AK09916_CNTL3 = 0x32
 
 
-class ICM20948:
+class ICM20948(object):
     def write(self, reg, value):
         """Write byte to the sensor."""
         self._bus.write_byte_data(self._addr, reg, value)

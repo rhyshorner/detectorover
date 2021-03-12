@@ -19,14 +19,17 @@ while True:
     imu.read_sensors()
     imu.computeOrientation()
 
-    print("roll: " + str(imu.roll) + ", pitch: " + str(imu.pitch) + ", yaw: " + str(imu.yaw))
+    print(f"roll: {round(imu.roll,3)}, pitch: {round(imu.pitch,3)}, yaw: {round(imu.yaw,3)}")
     
     newTime = time.time()
     dt = newTime - currTime
     currTime = newTime
 
-    sensorfusion.computeAndUpdateRollPitchYaw(imu.accel_data[0], imu.accel_data[1], imu.accel_data[2], imu.gyro_data[0], imu.gyro_data[1], imu.gyro_data[2],imu.magneto_data[0], imu.magneto_data[1], imu.magneto_data[2], dt)
+    sensorfusion.computeAndUpdateRollPitchYaw(
+        imu.accel_data[0], imu.accel_data[1], imu.accel_data[2], 
+        imu.gyro_data[0], imu.gyro_data[1], imu.gyro_data[2],imu.magneto_data[0], imu.magneto_data[1], 
+        imu.magneto_data[2], dt)
 
-    print("kalman roll: " + str(sensorfusion.roll) + ", kalman pitch: " + str(sensorfusion.pitch) + ", kalman yaw: " + str(sensorfusion.yaw) + ", delta_time: " + str(dt))
+    print(f"kalman roll: {round(sensorfusion.roll,3)}, kalman pitch: {round(sensorfusion.pitch,3)}, kalman yaw: {round(sensorfusion.yaw,3)}, delta_time: {round(dt,3)}")
 
     #time.sleep(0.1)

@@ -5,11 +5,16 @@ import time
 class Ahrs(object):
     """ detectorovers's attitude and heading management class """
     def __init__(self):
-        self.imu = ICM20948()
-        self.sensorfusion = Kalman()
+        try:
+            self.imu = ICM20948()
+            self.sensorfusion = Kalman()
+            self.imu.read_sensors()
+            self.imu.computeOrientation()
+        except:
+            print("AHRS Not initialised, exception error in ahrs.py")
+            pass
 
-        self.imu.read_sensors()
-        self.imu.computeOrientation()
+
         self.roll_pitch_yaw = [0,0,0]
 
         self.currTime = time.time()

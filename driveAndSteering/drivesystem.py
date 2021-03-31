@@ -5,7 +5,7 @@ from adafruit_servokit import ServoKit
 import time
 
 class DriveSystem(object):
-    """ detectorover's forward drive and steering management class """
+    """ detectorover's component level drive/steering controller class """
     def __init__(self, min_motor_speed, max_motor_speed):
         self.i2c = busio.I2C(board.SCL, board.SDA) #initialize i2c on rpi
         self.kit = ServoKit(channels=16)

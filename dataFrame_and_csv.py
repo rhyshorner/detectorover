@@ -90,13 +90,16 @@ def update_df(df, window1, roll_trim_system, ahrs_instrument, pressuresensor):
     df['altitude_local_pressure'] = 0 # read pressure sensor
     df['pressure_sensor_temperature_c'] = 0# read pressure sensor
 
-    rollpitchyaw = ahrs_instrument.roll_pitch_yaw_kalman() # read AHRS
-    df['roll_AHRS_deg'] = rollpitchyaw[0]
-    df['pitch_AHRS_deg'] = rollpitchyaw[1]
-    df['heading_AHRS_deg'] = rollpitchyaw[2]
-    df['roll_rate_AHRS_deg'] = 0 # read AHRS
-    df['pitch_rate_AHRS_deg'] = 0 # read AHRS
-    df['heading_rate_AHRS_deg'] = 0 # read AHRS
+    try:
+        rollpitchyaw = ahrs_instrument.roll_pitch_yaw_kalman() # read AHRS
+        df['roll_AHRS_deg'] = rollpitchyaw[0]
+        df['pitch_AHRS_deg'] = rollpitchyaw[1]
+        df['heading_AHRS_deg'] = rollpitchyaw[2]
+        df['roll_rate_AHRS_deg'] = 0 # read AHRS
+        df['pitch_rate_AHRS_deg'] = 0 # read AHRS
+        df['heading_rate_AHRS_deg'] = 0 # read AHRS
+    except:
+        pass
 
     df['heading_controller_enable'] = window1.heading_controller_enable_intvar.get()
     #df['drive_enable']

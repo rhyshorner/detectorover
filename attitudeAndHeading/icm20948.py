@@ -67,6 +67,57 @@ AK09916_CNTL3 = 0x32
 
 
 class ICM20948(object):
+    def __init__(self, i2c_addr=I2C_ADDR, i2c_bus=None):
+        self._bank = -1
+        self._addr = i2c_addr
+
+        if i2c_bus is None:
+            from smbus import SMBus
+            self._bus = SMBus(1)
+        else:
+            self._bus = i2c_bus
+
+        self.bank(0)
+        if not self.read(ICM20948_WHO_AM_I) == CHIP_ID:
+            raise RuntimeError("Unable to find ICM20948")
+
+        self.write(ICM20948_PWR_MGMT_1, 0x80)
+        time.sleep(0.01)
+        self.write(ICM20948_PWR_MGMT_1, 0x01)
+        self.write(ICM20948_PWR_MGMT_2, 0x00)
+
+        self.bank(2)
+
+        self.set_gyro_sample_rate(100)
+        self.set_gyro_low_pass(enabled=True, mode=5)
+        self.set_gyro_full_scale(250)
+
+        self.set_accelerometer_sample_rate(125)
+        self.set_accelerometer_low_pass(enabled=True, mode=5)
+        self.set_accelerometer_full_scale(16)
+
+        self.bank(0)
+        self.write(ICM20948_INT_PIN_CFG, 0x30)
+
+        self.bank(3)
+        self.write(ICM20948_I2C_MST_CTRL, 0x4D)
+        self.write(ICM20948_I2C_MST_DELAY_CTRL, 0x01)
+
+        if not self.mag_read(AK09916_WIA) == AK09916_CHIP_ID:
+            raise RuntimeError("Unable to find AK09916")
+
+        # Reset the magnetometer
+        self.mag_write(AK09916_CNTL3, 0x01)
+        while self.mag_read(AK09916_CNTL3) == 0x01:
+            time.sleep(0.0001)
+
+        self.accel_data = []
+        self.gyro_data = []
+        self.magneto_data = []
+        self.roll = 0
+        self.pitch = 0
+        self.yaw = 0
+        
     def write(self, reg, value):
         """Write byte to the sensor."""
         self._bus.write_byte_data(self._addr, reg, value)
@@ -274,54 +325,3 @@ class ICM20948(object):
         self.pitch = np.degrees(self.pitch)
         self.yaw = np.degrees(self.yaw)
         return
-
-    def __init__(self, i2c_addr=I2C_ADDR, i2c_bus=None):
-        self._bank = -1
-        self._addr = i2c_addr
-
-        if i2c_bus is None:
-            from smbus import SMBus
-            self._bus = SMBus(1)
-        else:
-            self._bus = i2c_bus
-
-        self.bank(0)
-        if not self.read(ICM20948_WHO_AM_I) == CHIP_ID:
-            raise RuntimeError("Unable to find ICM20948")
-
-        self.write(ICM20948_PWR_MGMT_1, 0x80)
-        time.sleep(0.01)
-        self.write(ICM20948_PWR_MGMT_1, 0x01)
-        self.write(ICM20948_PWR_MGMT_2, 0x00)
-
-        self.bank(2)
-
-        self.set_gyro_sample_rate(100)
-        self.set_gyro_low_pass(enabled=True, mode=5)
-        self.set_gyro_full_scale(250)
-
-        self.set_accelerometer_sample_rate(125)
-        self.set_accelerometer_low_pass(enabled=True, mode=5)
-        self.set_accelerometer_full_scale(16)
-
-        self.bank(0)
-        self.write(ICM20948_INT_PIN_CFG, 0x30)
-
-        self.bank(3)
-        self.write(ICM20948_I2C_MST_CTRL, 0x4D)
-        self.write(ICM20948_I2C_MST_DELAY_CTRL, 0x01)
-
-        if not self.mag_read(AK09916_WIA) == AK09916_CHIP_ID:
-            raise RuntimeError("Unable to find AK09916")
-
-        # Reset the magnetometer
-        self.mag_write(AK09916_CNTL3, 0x01)
-        while self.mag_read(AK09916_CNTL3) == 0x01:
-            time.sleep(0.0001)
-
-        self.accel_data = []
-        self.gyro_data = []
-        self.magneto_data = []
-        self.roll = 0
-        self.pitch = 0
-        self.yaw = 0
